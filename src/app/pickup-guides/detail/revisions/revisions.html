@@ -1,0 +1,55 @@
+<div class="tab-content">
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (error()) {
+    <div class="revisions-state">
+      <mat-icon class="revisions-state-icon">error_outline</mat-icon>
+      <p>Ocurrió un error al cargar el historial de revisiones.</p>
+      <button mat-stroked-button (click)="load()">
+        <mat-icon>refresh</mat-icon>
+        Reintentar
+      </button>
+    </div>
+  } @else if (revisions().length === 0) {
+    <div class="revisions-state">
+      <mat-icon class="revisions-state-icon">fact_check</mat-icon>
+      <p>No existen revisiones registradas para esta guía.</p>
+    </div>
+  } @else {
+    <div class="revisions-timeline">
+      @for (revision of revisions(); track $index) {
+        <mat-card class="revision-card">
+          <mat-card-content>
+            <div class="revision-header">
+              <div>
+                <span class="revision-date">{{ revision.revisionDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                <span class="revision-employee">Revisado por {{ revision.employeeName }}</span>
+              </div>
+            </div>
+            @if (revision.observation) {
+              <p class="revision-observation">{{ revision.observation }}</p>
+            }
+
+            <div class="revision-items">
+              @for (item of revision.items; track $index) {
+                <div class="revision-item">
+                  <span class="revision-item-name">{{ item.serviceName }}</span>
+                  <div class="revision-item-quantities">
+                    <span class="revision-item-original">Original: {{ item.originalQuantity }}</span>
+                    <mat-icon class="revision-item-arrow">arrow_forward</mat-icon>
+                    <span class="revision-item-new">Revisado: {{ item.newQuantity }}</span>
+                  </div>
+                  @if (item.reason) {
+                    <span class="revision-item-reason">Motivo: {{ item.reason }}</span>
+                  }
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

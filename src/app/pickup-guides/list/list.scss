@@ -1,0 +1,31 @@
+.evidence-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.evidence-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+
+  &--pdf {
+    color: #c62828;
+  }
+
+  &--photo {
+    color: #1565c0;
+  }
+
+  &--signature {
+    color: #2e7d32;
+  }
+
+  &--revision {
+    color: #e65100;
+  }
+}
+
+.evidence-none {
+  color: var(--portal-text-muted);
+}

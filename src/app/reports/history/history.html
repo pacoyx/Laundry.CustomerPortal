@@ -1,0 +1,25 @@
+<div class="tab-content">
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <div class="portal-card chart-card">
+      <canvas
+        baseChart
+        [data]="weightAmountData()"
+        [options]="chartOptions"
+        type="line"
+      ></canvas>
+    </div>
+
+    <div class="portal-card chart-card" style="margin-top: 20px;">
+      <canvas
+        baseChart
+        [data]="guidesData()"
+        [options]="barOptions"
+        type="bar"
+      ></canvas>
+    </div>
+  }
+</div>

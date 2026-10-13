@@ -1,0 +1,40 @@
+<div class="portal-page">
+  <h1 class="page-title">Hola, {{ profile()?.fullName }}</h1>
+  <p class="page-subtitle">Resumen de actividad de {{ profile()?.customerName }} — {{ summary()?.period }}</p>
+
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <div class="kpi-grid">
+      <app-kpi-card
+        label="Total Guías"
+        [value]="(summary()?.totalGuides ?? 0) | number"
+        icon="local_shipping"
+        accent="indigo"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Peso Total (kg)"
+        [value]="(summary()?.totalWeight ?? 0) | number: '1.0-1'"
+        icon="scale"
+        accent="blue"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Monto Total"
+        [value]="(summary()?.totalAmount ?? 0) | currency: 'PEN' : 'S/'"
+        icon="payments"
+        accent="gray"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Facturas del Mes"
+        [value]="(summary()?.invoicesThisMonth ?? 0) | number"
+        icon="receipt_long"
+        accent="indigo"
+      ></app-kpi-card>
+    </div>
+  }
+</div>

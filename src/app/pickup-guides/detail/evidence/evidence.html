@@ -1,0 +1,129 @@
+<div class="tab-content">
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (error()) {
+    <div class="evidence-state">
+      <mat-icon class="evidence-state-icon">error_outline</mat-icon>
+      <p>Ocurrió un error al cargar las evidencias de esta guía.</p>
+      <button mat-stroked-button (click)="load()">
+        <mat-icon>refresh</mat-icon>
+        Reintentar
+      </button>
+    </div>
+  } @else if (attachments().length === 0) {
+    <div class="evidence-state">
+      <mat-icon class="evidence-state-icon">inventory_2</mat-icon>
+      <p>No existen evidencias registradas para esta guía.</p>
+    </div>
+  } @else {
+    @if (pdfAttachments().length > 0) {
+      <div class="evidence-section">
+        <h3 class="evidence-section-title">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Constancia PDF
+        </h3>
+        <div class="evidence-cards">
+          @for (pdf of pdfAttachments(); track pdf.id) {
+            <mat-card class="evidence-card">
+              <mat-card-content class="evidence-card-content">
+                <mat-icon class="evidence-card-icon evidence-card-icon--pdf">picture_as_pdf</mat-icon>
+                <div class="evidence-card-info">
+                  <span class="evidence-card-name">{{ pdf.originalFileName }}</span>
+                  <span class="evidence-card-meta">{{ pdf.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button (click)="viewPdf(pdf)">
+                  <mat-icon>visibility</mat-icon>
+                  Ver PDF
+                </button>
+                <button mat-button (click)="download(pdf)">
+                  <mat-icon>download</mat-icon>
+                  Descargar
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      </div>
+    }
+
+    @if (photoAttachments().length > 0) {
+      <div class="evidence-section">
+        <h3 class="evidence-section-title">
+          <mat-icon>photo_camera</mat-icon>
+          Fotografías
+        </h3>
+        <div class="evidence-gallery">
+          @for (photo of photoAttachments(); track photo.id) {
+            <mat-card class="evidence-photo-card">
+              <div
+                class="evidence-photo-thumb"
+                (click)="viewPhoto(photo, 'Fotografía — ' + photo.originalFileName)"
+              >
+                @if (imageUrls()[photo.id]) {
+                  <img [src]="imageUrls()[photo.id]" [alt]="photo.originalFileName" />
+                } @else if (imageLoading()[photo.id]) {
+                  <mat-spinner diameter="28"></mat-spinner>
+                } @else {
+                  <mat-icon>broken_image</mat-icon>
+                }
+              </div>
+              <mat-card-actions>
+                <button
+                  mat-icon-button
+                  matTooltip="Ver foto"
+                  (click)="viewPhoto(photo, 'Fotografía — ' + photo.originalFileName)"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Descargar foto" (click)="download(photo)">
+                  <mat-icon>download</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      </div>
+    }
+
+    @if (signatureAttachments().length > 0) {
+      <div class="evidence-section">
+        <h3 class="evidence-section-title">
+          <mat-icon>draw</mat-icon>
+          Firma de Conformidad
+        </h3>
+        <div class="evidence-cards">
+          @for (signature of signatureAttachments(); track signature.id) {
+            <mat-card class="evidence-card signature-card">
+              <mat-card-content
+                class="evidence-signature-content"
+                (click)="viewPhoto(signature, 'Firma de Conformidad')"
+              >
+                @if (imageUrls()[signature.id]) {
+                  <img [src]="imageUrls()[signature.id]" alt="Firma de conformidad" class="signature-img" />
+                } @else if (imageLoading()[signature.id]) {
+                  <mat-spinner diameter="28"></mat-spinner>
+                } @else {
+                  <mat-icon>broken_image</mat-icon>
+                }
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button (click)="viewPhoto(signature, 'Firma de Conformidad')">
+                  <mat-icon>visibility</mat-icon>
+                  Ver
+                </button>
+                <button mat-button (click)="download(signature)">
+                  <mat-icon>download</mat-icon>
+                  Descargar
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,32 @@
+.status-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-chip--pending {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.status-chip--progress {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-chip--success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-chip--danger {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-chip--default {
+  background: #eceff1;
+  color: #455a64;
+}

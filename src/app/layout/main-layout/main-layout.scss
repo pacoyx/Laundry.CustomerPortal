@@ -1,0 +1,17 @@
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-layout-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.main-layout-outlet {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  background: var(--portal-bg);
+}

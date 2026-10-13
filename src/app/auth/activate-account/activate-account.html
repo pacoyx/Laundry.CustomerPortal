@@ -1,0 +1,49 @@
+<div class="auth-page">
+  <div class="auth-panel">
+    <div class="auth-brand">
+      <mat-icon class="auth-brand-icon">local_laundry_service</mat-icon>
+      <h1>Laundry</h1>
+      <p>Portal Empresarial de Clientes</p>
+    </div>
+
+    <mat-card class="auth-card">
+      <mat-card-content>
+        <h2>Activar cuenta</h2>
+        <p class="auth-subtitle">Crea tu contraseña para activar tu acceso al portal</p>
+
+        @if (success()) {
+          <div class="auth-success">Cuenta activada correctamente. Redirigiendo al inicio de sesión...</div>
+        } @else {
+          <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Nueva contraseña</mat-label>
+              <input matInput type="password" formControlName="password" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Confirmar contraseña</mat-label>
+              <input matInput type="password" formControlName="confirmPassword" />
+              @if (form.get('confirmPassword')?.hasError('passwordMismatch')) {
+                <mat-error>Las contraseñas no coinciden</mat-error>
+              }
+            </mat-form-field>
+
+            @if (errorMessage()) {
+              <div class="auth-error">{{ errorMessage() }}</div>
+            }
+
+            <button mat-flat-button color="primary" class="auth-submit" type="submit" [disabled]="loading()">
+              @if (loading()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                Activar cuenta
+              }
+            </button>
+
+            <a routerLink="/login" class="auth-link">Volver al inicio de sesión</a>
+          </form>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

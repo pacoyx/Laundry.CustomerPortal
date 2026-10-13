@@ -1,0 +1,57 @@
+<div class="portal-page">
+  <a routerLink="/users" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a Usuarios
+  </a>
+
+  <h1 class="page-title">{{ isEdit() ? 'Editar Usuario' : 'Crear Usuario' }}</h1>
+  <p class="page-subtitle">Gestiona los datos de acceso y permisos del usuario</p>
+
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()" class="portal-card user-form">
+      <div class="user-form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre completo</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput formControlName="email" type="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rol</mat-label>
+          <input matInput formControlName="role" placeholder="Ej: Administrador Empresa" />
+        </mat-form-field>
+      </div>
+
+      <h3 class="user-form-section-title">Permisos</h3>
+      <div class="user-form-permissions" formGroupName="permissions">
+        @for (option of permissionOptions; track option.key) {
+          <mat-checkbox [formControlName]="option.key">{{ option.label }}</mat-checkbox>
+        }
+      </div>
+
+      <div class="user-form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+          @if (saving()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            Guardar
+          }
+        </button>
+        <a mat-stroked-button routerLink="/users">Cancelar</a>
+      </div>
+    </form>
+  }
+</div>

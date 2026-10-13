@@ -1,0 +1,36 @@
+.portal-header {
+  height: var(--portal-header-height);
+  background: var(--portal-surface);
+  color: #1f2430;
+  border-bottom: 1px solid var(--portal-border);
+}
+
+.portal-header-company {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.portal-header-spacer {
+  flex: 1 1 auto;
+}
+
+.portal-header-user {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: none;
+}
+
+.portal-header-user-name {
+  margin: 0 4px;
+}
+
+.portal-header-menu-info {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;
+
+  small {
+    color: var(--portal-text-muted);
+  }
+}

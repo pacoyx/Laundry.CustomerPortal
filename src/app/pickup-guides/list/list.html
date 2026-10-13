@@ -1,0 +1,111 @@
+<div class="portal-page">
+  <h1 class="page-title">Mis Guías</h1>
+  <p class="page-subtitle">Consulta y filtra tus guías de recojo</p>
+
+  <div class="portal-card filters-card">
+    <form [formGroup]="filterForm" (ngSubmit)="search()" class="filters-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha Inicio</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha Fin</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">Todos</mat-option>
+          @for (status of statuses; track status) {
+            <mat-option [value]="status">{{ status }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div class="filters-actions">
+        <button mat-flat-button color="primary" type="submit">
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+        <button mat-stroked-button type="button" (click)="clearFilters()">Limpiar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="portal-card table-card">
+    @if (loading()) {
+      <div class="table-loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    } @else {
+      <table mat-table [dataSource]="guides()" class="w-100">
+        <ng-container matColumnDef="guideNumber">
+          <th mat-header-cell *matHeaderCellDef>Guía</th>
+          <td mat-cell *matCellDef="let guide">{{ guide.guideNumber }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let guide">{{ guide.date | date: 'dd/MM/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let guide">
+            <app-status-chip [status]="guide.status"></app-status-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalAmount">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let guide">{{ guide.totalAmount | currency: 'PEN' : 'S/' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="evidence">
+          <th mat-header-cell *matHeaderCellDef>Evidencias</th>
+          <td mat-cell *matCellDef="let guide">
+            <div class="evidence-icons">
+              @if (guide.hasPdf) {
+                <mat-icon class="evidence-icon evidence-icon--pdf" matTooltip="Constancia PDF disponible">picture_as_pdf</mat-icon>
+              }
+              @if (guide.hasPhotos) {
+                <mat-icon class="evidence-icon evidence-icon--photo" matTooltip="Fotos disponibles">photo_camera</mat-icon>
+              }
+              @if (guide.hasSignature) {
+                <mat-icon class="evidence-icon evidence-icon--signature" matTooltip="Firma de conformidad registrada">draw</mat-icon>
+              }
+              @if (guide.hasRevisions) {
+                <mat-icon class="evidence-icon evidence-icon--revision" matTooltip="Tiene revisiones registradas">history_edu</mat-icon>
+              }
+              @if (!guide.hasPdf && !guide.hasPhotos && !guide.hasSignature && !guide.hasRevisions) {
+                <span class="evidence-none">—</span>
+              }
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let guide">
+            <a mat-icon-button [routerLink]="['/pickup-guides', guide.id]">
+              <mat-icon>visibility</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      @if (guides().length === 0) {
+        <div class="table-empty">No se encontraron guías con los filtros aplicados.</div>
+      }
+    }
+  </div>
+</div>

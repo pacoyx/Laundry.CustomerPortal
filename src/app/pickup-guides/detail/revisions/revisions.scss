@@ -1,0 +1,97 @@
+.revisions-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  color: var(--portal-text-muted);
+  text-align: center;
+}
+
+.revisions-state-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  opacity: 0.6;
+}
+
+.revisions-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.revision-card {
+  border-left: 4px solid #3f51b5;
+}
+
+.revision-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.revision-date {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.revision-employee {
+  color: var(--portal-text-muted);
+  font-size: 13px;
+}
+
+.revision-observation {
+  margin: 0 0 12px;
+  color: #1f2430;
+}
+
+.revision-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.revision-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: #f7f8fa;
+  border-radius: 8px;
+}
+
+.revision-item-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.revision-item-quantities {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.revision-item-arrow {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: var(--portal-text-muted);
+}
+
+.revision-item-original {
+  color: #c62828;
+}
+
+.revision-item-new {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.revision-item-reason {
+  font-size: 12px;
+  color: var(--portal-text-muted);
+}

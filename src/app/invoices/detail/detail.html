@@ -1,0 +1,65 @@
+<div class="portal-page">
+  <a routerLink="/invoices" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a Mis Facturas
+  </a>
+
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (invoice(); as inv) {
+    <div class="portal-card detail-header">
+      <div>
+        <h1 class="page-title">Factura {{ inv.number }}</h1>
+        <p class="page-subtitle">
+          Emitida el {{ inv.date | date: 'dd/MM/yyyy' }} · Vence el {{ inv.dueDate | date: 'dd/MM/yyyy' }}
+          @if (inv.notes) { · {{ inv.notes }} }
+        </p>
+      </div>
+      <app-status-chip [status]="inv.status"></app-status-chip>
+    </div>
+
+    <div class="detail-summary">
+      <div class="portal-card detail-summary-item">
+        <span class="detail-summary-label">Subtotal</span>
+        <span class="detail-summary-value">{{ inv.subtotal | currency: 'PEN' : 'S/' }}</span>
+      </div>
+      <div class="portal-card detail-summary-item">
+        <span class="detail-summary-label">Impuestos</span>
+        <span class="detail-summary-value">{{ inv.tax | currency: 'PEN' : 'S/' }}</span>
+      </div>
+      <div class="portal-card detail-summary-item">
+        <span class="detail-summary-label">Total</span>
+        <span class="detail-summary-value">{{ inv.total | currency: 'PEN' : 'S/' }}</span>
+      </div>
+    </div>
+
+    <div class="portal-card table-card">
+      <table mat-table [dataSource]="inv.lines" class="w-100">
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+          <td mat-cell *matCellDef="let line">{{ line.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+          <td mat-cell *matCellDef="let line">{{ line.quantity }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="unitPrice">
+          <th mat-header-cell *matHeaderCellDef>Precio Unit.</th>
+          <td mat-cell *matCellDef="let line">{{ line.unitPrice | currency: 'PEN' : 'S/' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Importe</th>
+          <td mat-cell *matCellDef="let line">{{ line.amount | currency: 'PEN' : 'S/' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  }
+</div>
