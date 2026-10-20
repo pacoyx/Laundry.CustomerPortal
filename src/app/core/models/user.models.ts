@@ -1,5 +1,3 @@
-import { Permission } from './auth.models';
-
 export interface CustomerRoleApi {
   id: number;
   name: string;
@@ -33,12 +31,10 @@ export interface CustomerUserCreateRequest {
   userName: string;
   email: string;
   customerRoleId: number;
-  permissions: Permission[];
 }
 
 export interface CustomerUserUpdateRequest {
   fullName: string;
   email: string;
   customerRoleId: number;
-  permissions: Permission[];
 }

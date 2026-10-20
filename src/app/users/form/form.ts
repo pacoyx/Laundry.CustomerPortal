@@ -3,23 +3,14 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Permission } from '../../core/models/auth.models';
 import { CustomerRoleApi } from '../../core/models/user.models';
 import { UsersService } from '../../core/services/users.service';
-
-const PERMISSION_OPTIONS: { key: Permission; label: string }[] = [
-  { key: 'guides.view', label: 'Ver Guías' },
-  { key: 'invoices.view', label: 'Ver Facturas' },
-  { key: 'reports.view', label: 'Ver Reportes' },
-  { key: 'users.manage', label: 'Administrar Usuarios' }
-];
 
 @Component({
   selector: 'app-user-form',
@@ -28,7 +19,6 @@ const PERMISSION_OPTIONS: { key: Permission; label: string }[] = [
     ReactiveFormsModule,
     RouterLink,
     MatButtonModule,
-    MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -44,7 +34,6 @@ export class UserForm implements OnInit {
   private readonly usersService = inject(UsersService);
   private readonly snackBar = inject(MatSnackBar);
 
-  readonly permissionOptions = PERMISSION_OPTIONS;
   readonly loading = signal(false);
   readonly saving = signal(false);
   readonly isEdit = signal(false);
@@ -56,13 +45,7 @@ export class UserForm implements OnInit {
     fullName: ['', Validators.required],
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    roleId: [null as number | null, Validators.required],
-    permissions: this.fb.group(
-      PERMISSION_OPTIONS.reduce(
-        (acc, option) => ({ ...acc, [option.key]: [false] }),
-        {} as Record<string, boolean[]>
-      )
-    )
+    roleId: [null as number | null, Validators.required]
   });
 
   ngOnInit(): void {
@@ -109,11 +92,6 @@ export class UserForm implements OnInit {
     });
   }
 
-  private getSelectedPermissions(): Permission[] {
-    const permissionsValue = this.form.get('permissions')!.value as Record<string, boolean>;
-    return PERMISSION_OPTIONS.map((o) => o.key).filter((key) => permissionsValue[key]);
-  }
-
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -122,16 +100,14 @@ export class UserForm implements OnInit {
 
     this.saving.set(true);
     const { fullName, username, email, roleId } = this.form.getRawValue();
-    const permissions = this.getSelectedPermissions();
 
     const request$ = this.isEdit() && this.userId
-      ? this.usersService.update(this.userId, { fullName: fullName!, email: email!, customerRoleId: roleId!, permissions })
+      ? this.usersService.update(this.userId, { fullName: fullName!, email: email!, customerRoleId: roleId! })
       : this.usersService.create({
           fullName: fullName!,
           userName: username!,
           email: email!,
-          customerRoleId: roleId!,
-          permissions
+          customerRoleId: roleId!
         });
 
     request$.subscribe({

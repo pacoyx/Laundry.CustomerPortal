@@ -5,7 +5,7 @@
   </a>
 
   <h1 class="page-title">{{ isEdit() ? 'Editar Usuario' : 'Crear Usuario' }}</h1>
-  <p class="page-subtitle">Gestiona los datos de acceso y permisos del usuario</p>
+  <p class="page-subtitle">Gestiona los datos de acceso del usuario</p>
 
   @if (loading()) {
     <div class="table-loading">
@@ -43,13 +43,6 @@
             <mat-hint>{{ description }}</mat-hint>
           }
         </mat-form-field>
-      </div>
-
-      <h3 class="user-form-section-title">Permisos</h3>
-      <div class="user-form-permissions" formGroupName="permissions">
-        @for (option of permissionOptions; track option.key) {
-          <mat-checkbox [formControlName]="option.key">{{ option.label }}</mat-checkbox>
-        }
       </div>
 
       <div class="user-form-actions">
