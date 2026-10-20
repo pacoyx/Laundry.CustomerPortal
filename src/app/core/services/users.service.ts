@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
+  CustomerRoleApi,
   CustomerUserApi,
   CustomerUserCreateRequest,
   CustomerUserListItem,
@@ -24,6 +25,10 @@ function toListItem(user: CustomerUserApi): CustomerUserListItem {
 @Injectable({ providedIn: 'root' })
 export class UsersService {
   constructor(private readonly http: HttpClient) {}
+
+  listRoles(): Observable<CustomerRoleApi[]> {
+    return this.http.get<CustomerRoleApi[]>(`${environment.apiUrl}/customer-roles`);
+  }
 
   list(): Observable<CustomerUserListItem[]> {
     return this.http

@@ -12,6 +12,9 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else {
+    @if (loadError()) {
+      <p class="form-error-banner">No se pudo cargar la información del formulario. Intenta recargar la página.</p>
+    }
     <form [formGroup]="form" (ngSubmit)="submit()" class="portal-card user-form">
       <div class="user-form-grid">
         <mat-form-field appearance="outline">
@@ -36,6 +39,9 @@
               <mat-option [value]="option.id">{{ option.name }}</mat-option>
             }
           </mat-select>
+          @if (roleDescription(form.get('roleId')!.value); as description) {
+            <mat-hint>{{ description }}</mat-hint>
+          }
         </mat-form-field>
       </div>
 
@@ -47,7 +53,7 @@
       </div>
 
       <div class="user-form-actions">
-        <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving() || loadError()">
           @if (saving()) {
             <mat-spinner diameter="20"></mat-spinner>
           } @else {

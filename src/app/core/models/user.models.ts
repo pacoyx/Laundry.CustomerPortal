@@ -1,5 +1,11 @@
 import { Permission } from './auth.models';
 
+export interface CustomerRoleApi {
+  id: number;
+  name: string;
+  description: string;
+}
+
 export interface CustomerUserApi {
   id: number;
   fullName: string;

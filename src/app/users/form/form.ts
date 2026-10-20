@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,12 +11,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Permission } from '../../core/models/auth.models';
+import { CustomerRoleApi } from '../../core/models/user.models';
 import { UsersService } from '../../core/services/users.service';
-
-interface RoleOption {
-  id: number;
-  name: string;
-}
 
 const PERMISSION_OPTIONS: { key: Permission; label: string }[] = [
   { key: 'guides.view', label: 'Ver Guías' },
@@ -51,7 +48,8 @@ export class UserForm implements OnInit {
   readonly loading = signal(false);
   readonly saving = signal(false);
   readonly isEdit = signal(false);
-  readonly roleOptions = signal<RoleOption[]>([]);
+  readonly roleOptions = signal<CustomerRoleApi[]>([]);
+  readonly loadError = signal(false);
   private userId: number | null = null;
 
   readonly form = this.fb.group({
@@ -74,31 +72,40 @@ export class UserForm implements OnInit {
       this.isEdit.set(true);
       this.form.get('username')?.disable();
     }
-    this.loadRoleOptionsAndUser();
+    this.loadFormData();
   }
 
-  private loadRoleOptionsAndUser(): void {
-    this.loading.set(true);
-    this.usersService.list().subscribe({
-      next: (users) => {
-        const roles = new Map<number, string>();
-        users.forEach((u) => roles.set(u.roleId, u.role));
-        this.roleOptions.set(Array.from(roles, ([id, name]) => ({ id, name })));
+  roleDescription(roleId: number | null): string | null {
+    return this.roleOptions().find((role) => role.id === roleId)?.description ?? null;
+  }
 
-        if (this.userId) {
-          const user = users.find((u) => u.id === this.userId);
-          if (user) {
-            this.form.patchValue({
-              fullName: user.fullName,
-              username: user.username,
-              email: user.email,
-              roleId: user.roleId
-            });
-          }
+  private loadFormData(): void {
+    this.loading.set(true);
+    this.loadError.set(false);
+
+    forkJoin({
+      roles: this.usersService.listRoles(),
+      users: this.userId ? this.usersService.list() : of(null)
+    }).subscribe({
+      next: ({ roles, users }) => {
+        this.roleOptions.set(roles);
+
+        const user = users?.find((u) => u.id === this.userId);
+        if (user) {
+          this.form.patchValue({
+            fullName: user.fullName,
+            username: user.username,
+            email: user.email,
+            roleId: user.roleId
+          });
         }
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => {
+        this.loading.set(false);
+        this.loadError.set(true);
+        this.form.disable();
+      }
     });
   }
 
