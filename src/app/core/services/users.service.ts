@@ -48,6 +48,8 @@ export class UsersService {
   }
 
   generateActivationLink(id: number): Observable<{ link: string }> {
-    return this.http.post<{ link: string }>(`${environment.apiUrl}/users/${id}/generate-activation-link`, {});
+    return this.http
+      .post<{ activationUrl: string }>(`${environment.apiUrl}/users/${id}/generate-activation-link`, {})
+      .pipe(map((res) => ({ link: res.activationUrl })));
   }
 }
