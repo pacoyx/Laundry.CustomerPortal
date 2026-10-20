@@ -35,8 +35,7 @@ export interface ForgotPasswordRequest {
 
 export interface ResetPasswordRequest {
   token: string;
-  password: string;
-  confirmPassword: string;
+  newPassword: string;
 }
 
 export type Permission = 'guides.view' | 'invoices.view' | 'reports.view' | 'users.manage';

@@ -103,6 +103,7 @@ export class PickupGuidesService {
             employeeName: item.employeeName,
             observation: item.observation,
             items: item.items.map((detail) => ({
+              actionType: detail.actionType,
               serviceName: detail.serviceName,
               originalQuantity: detail.originalQuantity,
               newQuantity: detail.newQuantity,

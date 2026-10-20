@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { PickupGuideRevision } from '../../../core/models/pickup-guide.models';
+import { PickupGuideRevision, REVISION_ACTION_TYPE_LABELS } from '../../../core/models/pickup-guide.models';
 import { PickupGuidesService } from '../../../core/services/pickup-guides.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class PickupGuideRevisions implements OnInit {
   readonly loading = signal(true);
   readonly error = signal(false);
   readonly revisions = signal<PickupGuideRevision[]>([]);
+  readonly actionTypeLabels = REVISION_ACTION_TYPE_LABELS;
 
   ngOnInit(): void {
     this.load();

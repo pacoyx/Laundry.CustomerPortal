@@ -88,7 +88,16 @@ export interface PickupGuideAttachment {
   createdAt: string;
 }
 
+export type PickupGuideRevisionActionType = 'QuantityAdjustment' | 'AddedItem' | 'RemovedItem';
+
+export const REVISION_ACTION_TYPE_LABELS: Record<PickupGuideRevisionActionType, string> = {
+  QuantityAdjustment: 'Ajuste de cantidad',
+  AddedItem: 'Ítem agregado',
+  RemovedItem: 'Ítem eliminado'
+};
+
 export interface PickupGuideRevisionItem {
+  actionType: PickupGuideRevisionActionType;
   serviceName: string;
   originalQuantity: number;
   newQuantity: number;
@@ -166,6 +175,7 @@ export interface PortalPickupGuideAttachmentApi {
 }
 
 export interface PortalPickupGuideRevisionItemApi {
+  actionType: PickupGuideRevisionActionType;
   serviceName: string;
   originalQuantity: number;
   newQuantity: number;

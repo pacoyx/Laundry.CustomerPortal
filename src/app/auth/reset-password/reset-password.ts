@@ -53,10 +53,10 @@ export class ResetPassword {
     this.loading.set(true);
     this.errorMessage.set(null);
 
-    const { password, confirmPassword } = this.form.getRawValue();
+    const { password } = this.form.getRawValue();
 
     this.authService
-      .resetPassword({ token: this.token, password: password!, confirmPassword: confirmPassword! })
+      .resetPassword({ token: this.token, newPassword: password! })
       .subscribe({
         next: () => {
           this.loading.set(false);

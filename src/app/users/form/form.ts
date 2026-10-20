@@ -7,9 +7,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Permission } from '../../core/models/auth.models';
 import { UsersService } from '../../core/services/users.service';
+
+interface RoleOption {
+  id: number;
+  name: string;
+}
 
 const PERMISSION_OPTIONS: { key: Permission; label: string }[] = [
   { key: 'guides.view', label: 'Ver Guías' },
@@ -29,7 +35,8 @@ const PERMISSION_OPTIONS: { key: Permission; label: string }[] = [
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   templateUrl: './form.html'
 })
@@ -44,13 +51,14 @@ export class UserForm implements OnInit {
   readonly loading = signal(false);
   readonly saving = signal(false);
   readonly isEdit = signal(false);
+  readonly roleOptions = signal<RoleOption[]>([]);
   private userId: number | null = null;
 
   readonly form = this.fb.group({
     fullName: ['', Validators.required],
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    role: ['', Validators.required],
+    roleId: [null as number | null, Validators.required],
     permissions: this.fb.group(
       PERMISSION_OPTIONS.reduce(
         (acc, option) => ({ ...acc, [option.key]: [false] }),
@@ -65,22 +73,28 @@ export class UserForm implements OnInit {
       this.userId = Number(idParam);
       this.isEdit.set(true);
       this.form.get('username')?.disable();
-      this.loadExistingUser(this.userId);
     }
+    this.loadRoleOptionsAndUser();
   }
 
-  private loadExistingUser(id: number): void {
+  private loadRoleOptionsAndUser(): void {
     this.loading.set(true);
     this.usersService.list().subscribe({
       next: (users) => {
-        const user = users.find((u) => u.id === id);
-        if (user) {
-          this.form.patchValue({
-            fullName: user.fullName,
-            username: user.username,
-            email: user.email,
-            role: user.role
-          });
+        const roles = new Map<number, string>();
+        users.forEach((u) => roles.set(u.roleId, u.role));
+        this.roleOptions.set(Array.from(roles, ([id, name]) => ({ id, name })));
+
+        if (this.userId) {
+          const user = users.find((u) => u.id === this.userId);
+          if (user) {
+            this.form.patchValue({
+              fullName: user.fullName,
+              username: user.username,
+              email: user.email,
+              roleId: user.roleId
+            });
+          }
         }
         this.loading.set(false);
       },
@@ -100,12 +114,18 @@ export class UserForm implements OnInit {
     }
 
     this.saving.set(true);
-    const { fullName, username, email, role } = this.form.getRawValue();
+    const { fullName, username, email, roleId } = this.form.getRawValue();
     const permissions = this.getSelectedPermissions();
 
     const request$ = this.isEdit() && this.userId
-      ? this.usersService.update(this.userId, { fullName: fullName!, email: email!, role: role!, permissions })
-      : this.usersService.create({ fullName: fullName!, username: username!, email: email!, role: role!, permissions });
+      ? this.usersService.update(this.userId, { fullName: fullName!, email: email!, customerRoleId: roleId!, permissions })
+      : this.usersService.create({
+          fullName: fullName!,
+          userName: username!,
+          email: email!,
+          customerRoleId: roleId!,
+          permissions
+        });
 
     request$.subscribe({
       next: () => {

@@ -35,7 +35,10 @@
             <div class="revision-items">
               @for (item of revision.items; track $index) {
                 <div class="revision-item">
-                  <span class="revision-item-name">{{ item.serviceName }}</span>
+                  <div class="revision-item-header">
+                    <span class="revision-item-name">{{ item.serviceName }}</span>
+                    <span class="revision-item-action-tag">{{ actionTypeLabels[item.actionType] }}</span>
+                  </div>
                   <div class="revision-item-quantities">
                     <span class="revision-item-original">Original: {{ item.originalQuantity }}</span>
                     <mat-icon class="revision-item-arrow">arrow_forward</mat-icon>
