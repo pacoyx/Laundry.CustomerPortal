@@ -57,4 +57,8 @@ export class UsersService {
       .post<{ activationUrl: string }>(`${environment.apiUrl}/users/${id}/generate-activation-link`, {})
       .pipe(map((res) => ({ link: res.activationUrl })));
   }
+
+  resetPassword(id: number): Observable<{ id: number; email: string }> {
+    return this.http.post<{ id: number; email: string }>(`${environment.apiUrl}/users/${id}/reset-password`, {});
+  }
 }
