@@ -114,3 +114,32 @@
   font-size: 12px;
   color: var(--portal-text-muted);
 }
+
+.revision-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.revision-photo-thumb {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f2f5;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  mat-icon {
+    color: var(--portal-text-muted);
+  }
+}

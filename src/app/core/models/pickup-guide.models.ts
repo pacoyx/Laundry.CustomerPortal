@@ -104,11 +104,20 @@ export interface PickupGuideRevisionItem {
   reason: string;
 }
 
+export interface PickupGuideRevisionPhoto {
+  id: number;
+  originalFileName: string;
+  contentType: string;
+  fileSize: number;
+  createdAt: string;
+}
+
 export interface PickupGuideRevision {
   revisionDate: string;
   employeeName: string;
   observation: string;
   items: PickupGuideRevisionItem[];
+  photos: PickupGuideRevisionPhoto[];
 }
 
 // --- Contratos reales del backend (ver 24dex-backend-comercial/Features/CustomerPortal/PickupGuides) ---
@@ -182,9 +191,18 @@ export interface PortalPickupGuideRevisionItemApi {
   reason: string;
 }
 
+export interface PortalPickupGuideRevisionPhotoApi {
+  id: number;
+  originalFileName: string;
+  contentType: string;
+  fileSize: number;
+  createdAt: string;
+}
+
 export interface PortalPickupGuideRevisionApi {
   revisionDate: string;
   employeeName: string;
   observation: string;
   items: PortalPickupGuideRevisionItemApi[];
+  photos: PortalPickupGuideRevisionPhotoApi[];
 }

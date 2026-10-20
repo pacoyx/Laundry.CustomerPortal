@@ -50,6 +50,22 @@
                 </div>
               }
             </div>
+
+            @if (revision.photos.length > 0) {
+              <div class="revision-photos">
+                @for (photo of revision.photos; track photo.id) {
+                  <div class="revision-photo-thumb" (click)="viewPhoto(photo)">
+                    @if (imageUrls()[photo.id]) {
+                      <img [src]="imageUrls()[photo.id]" [alt]="photo.originalFileName" />
+                    } @else if (imageLoading()[photo.id]) {
+                      <mat-spinner diameter="20"></mat-spinner>
+                    } @else {
+                      <mat-icon>broken_image</mat-icon>
+                    }
+                  </div>
+                }
+              </div>
+            }
           </mat-card-content>
         </mat-card>
       }

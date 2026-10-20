@@ -108,6 +108,13 @@ export class PickupGuidesService {
               originalQuantity: detail.originalQuantity,
               newQuantity: detail.newQuantity,
               reason: detail.reason
+            })),
+            photos: item.photos.map((photo) => ({
+              id: photo.id,
+              originalFileName: photo.originalFileName,
+              contentType: photo.contentType,
+              fileSize: photo.fileSize,
+              createdAt: photo.createdAt
             }))
           }))
         )
@@ -116,5 +123,11 @@ export class PickupGuidesService {
 
   downloadAttachment(attachmentId: number): Observable<Blob> {
     return this.http.get(`${environment.apiUrl}/attachments/${attachmentId}/download`, { responseType: 'blob' });
+  }
+
+  downloadRevisionPhoto(photoId: number): Observable<Blob> {
+    return this.http.get(`${environment.apiUrl}/pickup-guides/revisions/photos/${photoId}/download`, {
+      responseType: 'blob'
+    });
   }
 }
