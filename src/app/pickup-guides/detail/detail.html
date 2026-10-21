@@ -11,10 +11,8 @@
   } @else if (guide(); as g) {
     <div class="portal-card detail-header">
       <div>
-        <h1 class="page-title">Guía {{ g.guideNumber }}</h1>
-        <p class="page-subtitle">
-          {{ g.date | date: 'dd/MM/yyyy' }} · N° Guía Física: {{ g.physicalGuideNumber ?? '—' }}
-        </p>
+        <h1 class="page-title">Guía {{ g.physicalGuideNumber ? 'GS-' + g.physicalGuideNumber : '—' }}</h1>
+        <p class="page-subtitle">{{ g.date | date: 'dd/MM/yyyy' }} · Interno: {{ g.guideNumber }}</p>
       </div>
       <app-status-chip [status]="g.status"></app-status-chip>
     </div>
