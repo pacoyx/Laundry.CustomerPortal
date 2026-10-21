@@ -29,3 +29,14 @@
 .evidence-none {
   color: var(--portal-text-muted);
 }
+
+.physical-guide-cell {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+
+  &__correlative {
+    font-size: 11px;
+    color: var(--portal-text-muted);
+  }
+}

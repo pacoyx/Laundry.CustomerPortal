@@ -32,6 +32,7 @@ export class PickupGuidesService {
         items.map((item) => ({
           id: item.id,
           guideNumber: item.guideNumber,
+          physicalGuideNumber: item.physicalGuideNumber,
           date: item.pickupDate,
           status: PICKUP_GUIDE_STATUS_LABELS[item.status] ?? 'Borrador',
           totalAmount: item.totalAmount,
@@ -59,6 +60,7 @@ export class PickupGuidesService {
         return {
           id: detail.id,
           guideNumber: detail.guideNumber,
+          physicalGuideNumber: detail.physicalGuideNumber,
           date: detail.pickupDate,
           status: PICKUP_GUIDE_STATUS_LABELS[detail.status] ?? 'Borrador',
           observation: detail.observation,

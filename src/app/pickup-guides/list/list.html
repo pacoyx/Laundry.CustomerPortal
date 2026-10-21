@@ -45,9 +45,16 @@
       </div>
     } @else {
       <table mat-table [dataSource]="guides()" class="w-100">
-        <ng-container matColumnDef="guideNumber">
-          <th mat-header-cell *matHeaderCellDef>Guía</th>
-          <td mat-cell *matCellDef="let guide">{{ guide.guideNumber }}</td>
+        <ng-container matColumnDef="physicalGuideNumber">
+          <th mat-header-cell *matHeaderCellDef>N° Guía Física</th>
+          <td mat-cell *matCellDef="let guide">
+            <div class="physical-guide-cell">
+              <span class="physical-guide-cell__main">
+                {{ guide.physicalGuideNumber ? 'GS-' + guide.physicalGuideNumber : '—' }}
+              </span>
+              <span class="physical-guide-cell__correlative">({{ guide.guideNumber }})</span>
+            </div>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="date">

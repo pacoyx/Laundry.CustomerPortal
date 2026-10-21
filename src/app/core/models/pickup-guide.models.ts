@@ -35,6 +35,7 @@ export interface PickupGuideFilter {
 export interface PickupGuideListItem {
   id: number;
   guideNumber: string;
+  physicalGuideNumber: string | null;
   date: string;
   status: PickupGuideStatus;
   totalAmount: number;
@@ -67,6 +68,7 @@ export interface PickupGuideVehicle {
 export interface PickupGuideDetail {
   id: number;
   guideNumber: string;
+  physicalGuideNumber: string | null;
   date: string;
   status: PickupGuideStatus;
   observation: string | null;
@@ -125,6 +127,7 @@ export interface PickupGuideRevision {
 export interface PortalPickupGuideSummaryApi {
   id: number;
   guideNumber: string;
+  physicalGuideNumber: string | null;
   branchSalesId: number;
   pickupDate: string;
   status: number;
@@ -163,6 +166,7 @@ export interface PortalPickupGuideDetailLineApi {
 export interface PortalPickupGuideDetailApi {
   id: number;
   guideNumber: string;
+  physicalGuideNumber: string | null;
   branchSalesId: number;
   pickupDate: string;
   status: number;

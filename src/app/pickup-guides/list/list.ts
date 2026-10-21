@@ -46,7 +46,7 @@ export class PickupGuidesList implements OnInit {
   readonly statuses = STATUSES;
   readonly loading = signal(true);
   readonly guides = signal<PickupGuideListItem[]>([]);
-  readonly displayedColumns = ['guideNumber', 'date', 'status', 'totalAmount', 'evidence', 'actions'];
+  readonly displayedColumns = ['physicalGuideNumber', 'date', 'status', 'totalAmount', 'evidence', 'actions'];
 
   readonly filterForm = this.fb.group({
     startDate: [null as Date | null],
