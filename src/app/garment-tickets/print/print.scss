@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  background: #f4f5f7;
+  min-height: 100vh;
+}
+
+.print-screen-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.ticket-80mm {
+  width: 80mm;
+  margin: 0 auto 24px;
+  background: #fff;
+  padding: 6mm;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #000;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-center {
+  text-align: center;
+}
+
+.ticket-bold {
+  font-weight: 700;
+}
+
+.ticket-divider {
+  border-top: 1px dashed #000;
+  margin: 6px 0;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ticket-line {
+  margin-bottom: 6px;
+}
+
+.ticket-line-main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket-line-worker {
+  font-size: 11px;
+  color: #333;
+}
+
+.ticket-line-obs {
+  font-size: 11px;
+  font-style: italic;
+  color: #333;
+}
+
+.ticket-signature {
+  margin-top: 24px;
+}
+
+.ticket-signature-line {
+  border-top: 1px solid #000;
+  margin: 24px 10mm 4px;
+}
+
+@media print {
+  :host {
+    background: #fff;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .ticket-80mm {
+    box-shadow: none;
+    margin: 0;
+    width: 80mm;
+  }
+
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}

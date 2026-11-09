@@ -1,0 +1,56 @@
+<div class="print-screen-actions no-print">
+  @if (loading()) {
+    <mat-spinner diameter="40"></mat-spinner>
+  } @else {
+    <button mat-flat-button color="primary" (click)="print()">
+      <mat-icon>print</mat-icon>
+      Imprimir de nuevo
+    </button>
+    <button mat-stroked-button (click)="goToDetail()">
+      <mat-icon>arrow_back</mat-icon>
+      Ver ticket
+    </button>
+  }
+</div>
+
+@if (ticket(); as ticket) {
+  <div class="ticket-80mm">
+    <div class="ticket-center ticket-bold">{{ companyName }}</div>
+    <div class="ticket-center">Ticket de ingreso de prendas</div>
+    <div class="ticket-divider"></div>
+
+    <div class="ticket-row"><span>Ticket:</span><span class="ticket-bold">{{ ticket.ticketNumber }}</span></div>
+    <div class="ticket-row"><span>Fecha:</span><span>{{ ticket.created | date: 'dd/MM/yyyy HH:mm' }}</span></div>
+    <div class="ticket-row"><span>Registrado por:</span><span>{{ ticket.createdByUserName }}</span></div>
+
+    <div class="ticket-divider"></div>
+
+    @for (line of ticket.lines; track line.id) {
+      <div class="ticket-line">
+        <div class="ticket-line-main">
+          <span>{{ line.serviceItemName }}</span>
+          <span class="ticket-bold">x{{ line.quantity }}</span>
+        </div>
+        <div class="ticket-line-worker">{{ line.workerName }}</div>
+        @if (line.observations) {
+          <div class="ticket-line-obs">{{ line.observations }}</div>
+        }
+      </div>
+    }
+
+    <div class="ticket-divider"></div>
+
+    <div class="ticket-row ticket-bold">
+      <span>Total prendas:</span>
+      <span>{{ totalQuantity }}</span>
+    </div>
+
+    <div class="ticket-divider"></div>
+
+    <div class="ticket-center">Conserve este ticket para el recojo</div>
+    <div class="ticket-signature">
+      <div class="ticket-signature-line"></div>
+      <div class="ticket-center">Firma</div>
+    </div>
+  </div>
+}

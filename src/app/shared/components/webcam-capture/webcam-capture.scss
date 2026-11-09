@@ -1,0 +1,23 @@
+.webcam-capture {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.webcam-video-wrap {
+  max-width: 480px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--portal-border);
+  background: #000;
+
+  video {
+    width: 100%;
+    display: block;
+  }
+}
+
+.webcam-actions {
+  display: flex;
+  gap: 12px;
+}

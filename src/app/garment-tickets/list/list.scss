@@ -1,0 +1,44 @@
+.summary-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2430;
+}
+
+.pending-summary-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pending-summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 120px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--portal-bg);
+  border: 1px solid var(--portal-border);
+}
+
+.pending-summary-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2430;
+}
+
+.pending-summary-label {
+  font-size: 13px;
+  color: var(--portal-text-muted);
+  text-align: center;
+}
+
+.clickable-row {
+  cursor: pointer;
+
+  &:hover {
+    background: var(--portal-bg);
+  }
+}

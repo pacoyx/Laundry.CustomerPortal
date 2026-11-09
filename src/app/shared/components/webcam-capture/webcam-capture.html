@@ -1,0 +1,23 @@
+<div class="webcam-capture">
+  @if (!streaming()) {
+    <button mat-stroked-button type="button" (click)="start()" [disabled]="starting()">
+      <mat-icon>photo_camera</mat-icon>
+      Activar cámara
+    </button>
+  } @else {
+    <div class="webcam-video-wrap">
+      <video #video muted playsinline></video>
+    </div>
+    <div class="webcam-actions">
+      <button mat-flat-button color="primary" type="button" (click)="capture()">
+        <mat-icon>camera</mat-icon>
+        Tomar foto
+      </button>
+      <button mat-stroked-button type="button" (click)="stop()">
+        <mat-icon>close</mat-icon>
+        Apagar cámara
+      </button>
+    </div>
+  }
+  <canvas #canvas hidden></canvas>
+</div>

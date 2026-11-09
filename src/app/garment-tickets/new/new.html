@@ -1,0 +1,137 @@
+<div class="portal-page">
+  <a routerLink="/garment-tickets" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a Ingreso de Prendas
+  </a>
+
+  <h1 class="page-title">Registrar Ingreso de Prendas</h1>
+  <p class="page-subtitle">Registra las prendas que entrega cada trabajador para su lavado</p>
+
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    @if (loadError()) {
+      <p class="form-error-banner">No se pudo cargar trabajadores o servicios. Intenta recargar la página.</p>
+    } @else {
+      <form [formGroup]="lineForm" (ngSubmit)="addLine()" class="portal-card ticket-line-form">
+        <div class="ticket-line-grid">
+          <mat-form-field appearance="outline" class="field-large">
+            <mat-label>Trabajador</mat-label>
+            <mat-select formControlName="workerId">
+              @for (worker of workers(); track worker.id) {
+                <mat-option [value]="worker.id">{{ worker.fullName }} ({{ worker.code }})</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="field-large">
+            <mat-label>Servicio</mat-label>
+            <mat-select formControlName="serviceItemId">
+              @for (item of serviceItems(); track item.serviceItemId) {
+                <mat-option [value]="item.serviceItemId">{{ item.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <div class="quantity-stepper">
+            <span class="quantity-label">Cantidad</span>
+            <div class="quantity-controls">
+              <button mat-icon-button type="button" (click)="decrementQuantity()">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="quantity-value">{{ lineForm.get('quantity')!.value }}</span>
+              <button mat-icon-button type="button" (click)="incrementQuantity()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <mat-form-field appearance="outline" class="field-observations">
+            <mat-label>Observaciones (opcional)</mat-label>
+            <input matInput formControlName="observations" />
+          </mat-form-field>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit" class="add-line-button">
+          <mat-icon>add_circle</mat-icon>
+          Agregar línea
+        </button>
+      </form>
+
+      <div class="portal-card table-card">
+        <table class="w-100 lines-table">
+          <thead>
+            <tr>
+              <th>Trabajador</th>
+              <th>Servicio</th>
+              <th>Cantidad</th>
+              <th>Observaciones</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (line of lines(); track $index) {
+              <tr>
+                <td>{{ line.workerName }}</td>
+                <td>{{ line.serviceItemName }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.observations || '—' }}</td>
+                <td>
+                  <button mat-icon-button type="button" (click)="removeLine($index)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        @if (lines().length === 0) {
+          <div class="table-empty">Aún no agregas líneas al ticket.</div>
+        } @else {
+          <div class="lines-total">Total de prendas: <strong>{{ totalQuantity }}</strong></div>
+        }
+      </div>
+
+      <div class="portal-card photo-card">
+        <div class="photo-toggle">
+          <button mat-stroked-button type="button" (click)="wantsPhotoNow.set(!wantsPhotoNow())">
+            <mat-icon>add_a_photo</mat-icon>
+            {{ wantsPhotoNow() ? 'Ocultar cámara' : 'Adjuntar foto ahora' }}
+          </button>
+          <span class="photo-hint">También puedes agregar fotos más tarde desde el detalle del ticket.</span>
+        </div>
+
+        @if (wantsPhotoNow()) {
+          <app-webcam-capture (photoCaptured)="onPhotoCaptured($event)"></app-webcam-capture>
+        }
+
+        @if (capturedPhotos().length > 0) {
+          <div class="captured-photos">
+            @for (photo of capturedPhotos(); track $index) {
+              <div class="captured-photo">
+                <img [src]="photo.url" alt="Foto capturada" />
+                <button mat-icon-button type="button" (click)="removePhoto($index)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="user-form-actions">
+        <button mat-flat-button color="primary" (click)="submit()" [disabled]="saving()">
+          @if (saving()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            Registrar e imprimir
+          }
+        </button>
+        <a mat-stroked-button routerLink="/garment-tickets">Cancelar</a>
+      </div>
+    }
+  }
+</div>

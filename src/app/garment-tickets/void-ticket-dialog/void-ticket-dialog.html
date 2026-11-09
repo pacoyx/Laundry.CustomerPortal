@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Anular ticket</h2>
+<mat-dialog-content>
+  <p>Esta acción no se puede deshacer. Indica el motivo de la anulación.</p>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Motivo</mat-label>
+    <textarea matInput rows="3" [formControl]="reasonControl"></textarea>
+    @if (reasonControl.invalid && reasonControl.touched) {
+      <mat-error>El motivo es obligatorio.</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">Cancelar</button>
+  <button mat-flat-button color="warn" (click)="confirm()">Anular ticket</button>
+</mat-dialog-actions>
