@@ -12,7 +12,9 @@ const STATUS_CLASS_MAP: Record<string, string> = {
   Vencido: 'status-chip--danger',
   Cancelado: 'status-chip--danger',
   Anulado: 'status-chip--danger',
-  Anulada: 'status-chip--danger'
+  Anulada: 'status-chip--danger',
+  Pendiente: 'status-chip--pending',
+  Recogido: 'status-chip--success'
 };
 
 @Component({

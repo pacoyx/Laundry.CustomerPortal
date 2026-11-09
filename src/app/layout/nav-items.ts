@@ -12,5 +12,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Mis Guías', icon: 'local_shipping', route: '/pickup-guides', permission: 'guides.view' },
   { label: 'Mis Facturas', icon: 'receipt_long', route: '/invoices', permission: 'invoices.view' },
   { label: 'Reportes', icon: 'bar_chart', route: '/reports', permission: 'reports.view' },
-  { label: 'Usuarios', icon: 'group', route: '/users', permission: 'users.manage' }
+  { label: 'Usuarios', icon: 'group', route: '/users', permission: 'users.manage' },
+  { label: 'Trabajadores', icon: 'badge', route: '/workers', permission: 'garments.manage' },
+  { label: 'Ingreso de Prendas', icon: 'checkroom', route: '/garment-tickets', permission: 'garments.manage' }
 ];

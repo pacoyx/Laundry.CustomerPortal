@@ -1,0 +1,48 @@
+<div class="portal-page">
+  <a routerLink="/workers" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Volver a Trabajadores
+  </a>
+
+  <h1 class="page-title">{{ isEdit() ? 'Editar Trabajador' : 'Nuevo Trabajador' }}</h1>
+  <p class="page-subtitle">Trabajadores que entregan prendas en roperia</p>
+
+  @if (loading()) {
+    <div class="table-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    @if (loadError()) {
+      <p class="form-error-banner">No se pudo cargar la información del formulario. Intenta recargar la página.</p>
+    }
+    <form [formGroup]="form" (ngSubmit)="submit()" class="portal-card user-form">
+      <div class="user-form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Código</mat-label>
+          <input matInput formControlName="code" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre completo</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Área</mat-label>
+          <input matInput formControlName="area" />
+        </mat-form-field>
+      </div>
+
+      <div class="user-form-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving() || loadError()">
+          @if (saving()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            Guardar
+          }
+        </button>
+        <a mat-stroked-button routerLink="/workers">Cancelar</a>
+      </div>
+    </form>
+  }
+</div>

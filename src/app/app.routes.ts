@@ -21,6 +21,11 @@ export const routes: Routes = [
     loadComponent: () => import('./auth/reset-password/reset-password').then((m) => m.ResetPassword)
   },
   {
+    path: 'garment-tickets/:id/print',
+    canActivate: [authGuard, permissionGuard('garments.manage')],
+    loadComponent: () => import('./garment-tickets/print/print').then((m) => m.GarmentTicketPrint)
+  },
+  {
     path: '',
     canActivate: [authGuard],
     loadComponent: () => import('./layout/main-layout/main-layout').then((m) => m.MainLayout),
@@ -68,6 +73,36 @@ export const routes: Routes = [
         path: 'users/:id/edit',
         canActivate: [permissionGuard('users.manage')],
         loadComponent: () => import('./users/form/form').then((m) => m.UserForm)
+      },
+      {
+        path: 'workers',
+        canActivate: [permissionGuard('garments.manage')],
+        loadComponent: () => import('./workers/list/list').then((m) => m.WorkersList)
+      },
+      {
+        path: 'workers/new',
+        canActivate: [permissionGuard('garments.manage')],
+        loadComponent: () => import('./workers/form/form').then((m) => m.WorkerForm)
+      },
+      {
+        path: 'workers/:id/edit',
+        canActivate: [permissionGuard('garments.manage')],
+        loadComponent: () => import('./workers/form/form').then((m) => m.WorkerForm)
+      },
+      {
+        path: 'garment-tickets',
+        canActivate: [permissionGuard('garments.manage')],
+        loadComponent: () => import('./garment-tickets/list/list').then((m) => m.GarmentTicketsList)
+      },
+      {
+        path: 'garment-tickets/new',
+        canActivate: [permissionGuard('garments.manage')],
+        loadComponent: () => import('./garment-tickets/new/new').then((m) => m.GarmentTicketNew)
+      },
+      {
+        path: 'garment-tickets/:id',
+        canActivate: [permissionGuard('garments.manage')],
+        loadComponent: () => import('./garment-tickets/detail/detail').then((m) => m.GarmentTicketDetailComponent)
       }
     ]
   },

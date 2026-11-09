@@ -1,0 +1,72 @@
+<div class="portal-page">
+  <div class="page-header-row">
+    <div>
+      <h1 class="page-title">Trabajadores</h1>
+      <p class="page-subtitle">Trabajadores de tu empresa que entregan prendas para lavado</p>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/workers/new">
+      <mat-icon>person_add</mat-icon>
+      Nuevo Trabajador
+    </a>
+  </div>
+
+  <div class="portal-card table-card">
+    @if (loading()) {
+      <div class="table-loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    } @else {
+      <table mat-table [dataSource]="workers()" class="w-100">
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef>Código</th>
+          <td mat-cell *matCellDef="let worker">{{ worker.code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let worker">{{ worker.fullName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef>Área</th>
+          <td mat-cell *matCellDef="let worker">{{ worker.area }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let worker">
+            <span class="status-chip" [class]="worker.active ? 'status-chip--success' : 'status-chip--default'">
+              {{ worker.active ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let worker">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editWorker(worker.id)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item (click)="toggleActive(worker)">
+                <mat-icon>{{ worker.active ? 'block' : 'check_circle' }}</mat-icon>
+                <span>{{ worker.active ? 'Desactivar' : 'Activar' }}</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      @if (workers().length === 0) {
+        <div class="table-empty">No hay trabajadores registrados.</div>
+      }
+    }
+  </div>
+</div>

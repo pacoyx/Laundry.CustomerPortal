@@ -38,7 +38,7 @@ export interface ResetPasswordRequest {
   newPassword: string;
 }
 
-export type Permission = 'guides.view' | 'invoices.view' | 'reports.view' | 'users.manage';
+export type Permission = 'guides.view' | 'invoices.view' | 'reports.view' | 'users.manage' | 'garments.manage';
 
 export interface MeResponse {
   customerId: number;
